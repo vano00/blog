@@ -1,5 +1,5 @@
 <?php
-namespace Blog;
+namespace Comment;
 use \Validation as Validation;
 
 class Model_Comment extends \Orm\Model
@@ -41,6 +41,14 @@ class Model_Comment extends \Orm\Model
 		return $val;
 	}
 
-	protected static $_belongs_to = array('post');
+	/**
+	 * init the class
+	 */
+
+	protected static $_belongs_to = array(
+		'post' => array(
+			'model_to' => 'Blog\Model_post',
+		)
+	);
 
 }

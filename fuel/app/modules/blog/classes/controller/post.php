@@ -59,18 +59,19 @@ class Controller_Post extends \Controller_Template
 	{
 		is_null($slug) and Response::redirect('blog/post');
 
+		$related = (in_array('post', \Config::get('comment')) ? array('published_comments','author','category') : array('author','category'));
+
     	$data['post'] = Model_Post::find(
        		'first',
        		array(
            		'where' => array(
                		array('slug' => $slug),
            		),
-           		'related' => array('published_comments','author','category'),
+           		'related' => $related,
 			) 
 		);
 
-
-		if ( ! $data['post'])
+    			if ( ! $data['post'])
 		{
 			Session::set_flash('error', 'Could not find post with slug: '.$slug);
 			Response::redirect('blog/post');
@@ -79,11 +80,11 @@ class Controller_Post extends \Controller_Template
 		// Is the user sending a comment? If yes, process it.
 	   	if (Input::method() == 'POST')
 	   	{
-	       	$val = Model_Comment::validate('create');
+	       	$val = \Comment\Model_Comment::validate('create');
 	       	
 	       	if ($val->run())
 	       	{
-	           $comment = Model_Comment::forge(array(
+	           $comment = \Comment\Model_Comment::forge(array(
 	               	'name' => Input::post('name'),
 	               	'email' => Input::post('email'),
 	               	'content' => Input::post('content'),

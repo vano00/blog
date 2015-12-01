@@ -1,5 +1,5 @@
 <?php
-namespace Blog;
+namespace Comment;
 use Controller_Admin;
 use Input;
 use View;
@@ -20,54 +20,7 @@ class Controller_Admin_Comment extends Controller_Admin
         	)
 		);
 		$this->template->title = "Comments";
-		$this->template->content = View::forge('admin/comment/index', $data);
-
-	}
-
-	public function action_create()
-	{
-		if (Input::method() == 'POST')
-		{
-			$val = Model_Comment::validate('create');
-
-			if ($val->run())
-			{
-				$comment = Model_Comment::forge(array(
-					'name' => Input::post('name'),
-					'email' => Input::post('email'),
-					'content' => Input::post('content'),
-					'status' => Input::post('status'),
-					'post_id' => Input::post('post_id'),
-				));
-
-				if (\Security::check_token() and $comment and $comment->save())
-				{
-					Session::set_flash('success', e('Added comment #'.$comment->id.'.'));
-
-					Response::redirect('blog/admin/comment');
-				}
-
-				else
-				{
-					if (!\Security::check_token()) {
-
-						Session::set_flash('error', e('Could not save comment, CSRF token not valid!'));
-
-					} else {
-
-						Session::set_flash('error', e('Could not save comment.'));
-
-					}
-				}
-			}
-			else
-			{
-				Session::set_flash('error', $val->error());
-			}
-		}
-
-		$this->template->title = "Comments";
-		$this->template->content = View::forge('admin/comment/create');
+		$this->template->content = View::forge('admin/index', $data);
 
 	}
 
@@ -80,7 +33,7 @@ class Controller_Admin_Comment extends Controller_Admin
 		{
 			Session::set_flash('error', e('Comment #' . $id . ' doesn\'t exist'));
 
-			Response::redirect('blog/admin/comment');
+			Response::redirect('admin/comment');
 		}
 
 		if ($val->run())
@@ -94,7 +47,7 @@ class Controller_Admin_Comment extends Controller_Admin
 			{
 				Session::set_flash('success', e('Updated comment #' . $id));
 
-				Response::redirect('blog/admin/comment');
+				Response::redirect('admin/comment');
 			}
 
 			else
@@ -126,7 +79,7 @@ class Controller_Admin_Comment extends Controller_Admin
 		}
 
 		$this->template->title = "Comments";
-		$this->template->content = View::forge('admin/comment/edit');
+		$this->template->content = View::forge('admin/edit');
 
 	}
 
@@ -151,7 +104,7 @@ class Controller_Admin_Comment extends Controller_Admin
 			}
 		}
 
-		Response::redirect('blog/admin/comment');
+		Response::redirect('admin/comment');
 
 	}
 

@@ -4,6 +4,7 @@ use \Validation as Validation;
 
 class Model_Post extends \Orm\Model
 {
+
 	protected static $_properties = array(
 		'id',
 		'title',
@@ -51,23 +52,32 @@ class Model_Post extends \Orm\Model
 		),
 	);
 
-	protected static $_has_many = array(
-		'comments' => array(
-			'model_to' => '\Blog\Model_Comment',
-			'key_from' => 'id',
-			'key_to' => 'post_id',
-			'cascade_save' => true,
-			'cascade_delete' => true,
+	public static function _init()
+	{
 
-		),
-		'published_comments' => array(
-       		'model_to'          => '\Blog\Model_Comment',
-       		'conditions' => array(
-           		'where' => array(
-               		array('status', '=', 'published'),
-				), 
-			),
-		),
-	);
+		if (in_array('post', \Config::get('comment')) and \Module::load('comment')) 
+		{
 
+			static::$_has_many = array_merge(static::$_has_many, [
+				'comments' => [
+					'model_to' => '\Comment\Model_Comment',
+					'key_from' => 'id',
+					'key_to' => 'post_id',
+					'cascade_save' => true,
+					'cascade_delete' => true,
+
+				],
+				'published_comments' => [
+		       		'model_to' => '\Comment\Model_Comment',
+		       		'conditions' => array(
+		           		'where' => array(
+		               		array('status', '=', 'published'),
+						), 
+					),
+				],
+			]);
+		}
+	}
+
+	protected static $_has_many = [];
 }

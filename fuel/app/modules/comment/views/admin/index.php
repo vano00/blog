@@ -17,8 +17,8 @@
 			<td>
 				<div class="btn-toolbar">
 					<div class="btn-group pull-right">
-						<?php echo Html::anchor('blog/admin/comment/edit/'.$item->id, 'Edit', array('class' => 'btn btn-default btn-sm')); ?>
-						<?php echo Html::anchor('blog/admin/comment/delete/'.$item->id.'?'.\Config::get('security.csrf_token_key').'='.\Security::fetch_token(), 'Delete', array('onclick' => "return confirm('Are you sure?')", 'class' => 'btn btn-sm btn-danger')); ?>
+						<?php echo Html::anchor('comment/admin/comment/edit/'.$item->id, 'Edit', array('class' => 'btn btn-default btn-sm')); ?>
+						<?php echo Html::anchor('comment/admin/comment/delete/'.$item->id.'?'.\Config::get('security.csrf_token_key').'='.\Security::fetch_token(), 'Delete', array('onclick' => "return confirm('Are you sure?')", 'class' => 'btn btn-sm btn-danger')); ?>
 					</div>
 				</div>
 			</td>

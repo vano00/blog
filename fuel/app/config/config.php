@@ -282,7 +282,9 @@ return array(
 		 *
 		 * A path must be set in module_paths for this to work.
 		 */
-		// 'modules'  => array(),
+		'modules'  => array(
+				'blog',
+			),
 
 		/**
 		 * Classes to autoload & initialize even when not used
@@ -308,6 +310,14 @@ return array(
 		 * If you don't want the lang in a group use null as groupname.
 		 */
 		// 'language'  => array(),
+	),
+
+	/**************************************************************************/
+	/* activate commenting system                                             */
+	/**************************************************************************/
+	
+	'comment' => array(
+		'post'
 	),
 
 );
